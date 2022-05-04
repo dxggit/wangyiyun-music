@@ -6,20 +6,15 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "@/style/common.css";
 import { isVisible } from "./utils/tools";
+import * as filters from "@/utils/filter.js";
+// console.log(filters);
+Object.keys(filters).forEach((key) => {
+  Vue.filter(key, filters[key]);
+});
 // import directives from "@/directives";
 // //注册全局自定义指令
 // Vue.use(directives);
-Vue.directive("imgLazyLoad", {
-  mounted: function (el, binding) {
-    if (isVisible(el)) {
-      console.log("ok");
-      el.onerror = () => {
-        el.src = "../assets/wangyi-logo.png";
-      };
-      el.src = binding.value;
-    }
-  },
-});
+Vue.directive("imgLazyLoad", isVisible);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 // 页面回到顶部

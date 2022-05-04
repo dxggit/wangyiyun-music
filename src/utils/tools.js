@@ -1,3 +1,5 @@
+// import { entries } from "core-js/core/array";
+
 export const scrollLoading = () => {
   //滚动条滚动时，距离顶端的距离
   let crollTop = document.body.scrollTop;
@@ -8,13 +10,28 @@ export const scrollLoading = () => {
   return crollTop + lientHeight >= crollHeight;
 };
 
-//判断元素是否在可见区域
-export const isVisible = (el) => {
-  const position = el.getBoundingClientRect();
-  const windowHeight = document.documentElement.clientHeight;
-  //顶部边缘可见
-  const topVisible = position.top > 0 && position.top < windowHeight;
-  //底部边缘可见
-  const bottomVisible = position.bottom > 0 && position.bottom < windowHeight;
-  return topVisible || bottomVisible;
+// //判断元素是否在可见区域
+// export const isVisible = (el) => {
+//   const position = el.getBoundingClientRect();
+//   const windowHeight = document.documentElement.clientHeight;
+//   //顶部边缘可见
+//   const topVisible = position.top > 0 && position.top < windowHeight;
+//   //底部边缘可见
+//   const bottomVisible = position.bottom > 0 && position.bottom < windowHeight;
+//   return topVisible || bottomVisible;
+// };
+
+export const isVisible = {
+  bind: function (el, binding) {
+    let observer = new IntersectionObserver((entries, self) => {
+      // console.log(entries);
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          el.src = binding.value;
+          self.unobserve(entry.target);
+        }
+      });
+    });
+    observer.observe(el);
+  },
 };

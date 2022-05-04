@@ -5,14 +5,14 @@
         :class="{ active: index === 1 }"
         type="primary"
         round
-        @click="change(1)"
+        @click="change(1, 'NewCourier')"
         >新歌速递</el-button
       >
       <el-button
         :class="{ active: index === 2 }"
         type="primary"
         round
-        @click="change(2)"
+        @click="change(2, 'NewAblum')"
         >新碟上架</el-button
       >
     </div>
@@ -30,12 +30,28 @@
           </span>
         </div>
         <div class="right">
-          <span :class="{ active: index2 === 1 }" @click="recommonBtn(1)"
-            >推荐</span
-          >
-          <span :class="{ active: index2 === 2 }" @click="recommonBtn(2)"
-            >全部</span
-          >
+          <template v-if="activeComponent === 'NewCourier'">
+            <span
+              class="play-all"
+              :class="{ active: index2 === 1 }"
+              @click="recommonBtn(1)"
+              ><i class="el-icon-video-play"></i> 全部播放</span
+            >
+            <span
+              class="select-all"
+              :class="{ active: index2 === 2 }"
+              @click="recommonBtn(2)"
+              ><i class="el-icon-folder-add"></i> 全部收藏</span
+            >
+          </template>
+          <template v-else>
+            <span :class="{ active: index2 === 1 }" @click="recommonBtn(1)"
+              >推荐</span
+            >
+            <span :class="{ active: index2 === 2 }" @click="recommonBtn(2)"
+              >全部</span
+            >
+          </template>
         </div>
       </el-col>
     </el-row>
@@ -46,18 +62,18 @@
 </template>
 
 <script>
-import activeComponent from "./components/new-album.vue";
-import NewMusic from "./components/new-music.vue";
+import NewAblum from "./components/new-album.vue";
+import NewCourier from "./components/new-music.vue";
 export default {
   name: "NewMusic",
   components: {
-    activeComponent,
-    NewMusic,
+    NewAblum,
+    NewCourier,
   },
 
   data() {
     return {
-      activeComponent: "activeComponent",
+      activeComponent: "NewCourier",
       index: 1,
       index1: 0,
       index2: 1,
@@ -68,15 +84,19 @@ export default {
         { title: "华语", id: 7 },
         { title: "欧美", id: 96 },
         { title: "日本", id: 8 },
-        { title: "韩国", id: 16 },
       ],
       paramsData: { type: 0 },
     };
   },
   watch: {},
   methods: {
-    change(i) {
-      this.index = i;
+    change(i, component) {
+      if (this.activeComponent !== component) {
+        this.index = i;
+        this.activeComponent = component;
+        this.index1 = 0;
+        this.paramsData.type = 0;
+      }
     },
 
     changeType(item, i) {
@@ -125,6 +145,7 @@ export default {
     font-size: 14px;
     height: 30px;
     z-index: 99;
+    padding: 0 15px;
     .left {
       span {
         display: inline-block;
@@ -151,6 +172,18 @@ export default {
           background-color: rgba(236, 65, 65, 0.1);
           color: red;
           border-radius: 15px;
+        }
+        &.play-all,
+        &.select-all {
+          padding: 2px 15px;
+          margin-right: 10px;
+          border: 1px solid #eee;
+          border-radius: 10px;
+          &.active {
+            color: #fff;
+            background-color: red;
+            border: none;
+          }
         }
       }
     }

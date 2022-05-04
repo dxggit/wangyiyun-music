@@ -87,7 +87,7 @@ export default {
 
 <style lang="less" scoped>
 .home-container {
-  width: 100%;
+  width: 85%;
   izontal {
     border: none;
     font-size: 18px;

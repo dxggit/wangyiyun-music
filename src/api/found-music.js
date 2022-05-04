@@ -89,3 +89,12 @@ export const highqualityList = (paramsData) => {
     params: paramsData,
   });
 };
+
+//新碟上架
+export const newAlbum = (paramsData) => {
+  return request({
+    url: "/top/album",
+    method: "GET",
+    params: paramsData,
+  });
+};

@@ -87,7 +87,7 @@ export default {
       }
       try {
         const { data } = await newMusicList(this.paramsData);
-        console.log(data);
+        // console.log(data);
         this.list = data;
       } catch (err) {
         this.$message("获取数据失败，请稍后重试");

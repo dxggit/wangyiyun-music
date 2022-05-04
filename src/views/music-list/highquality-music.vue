@@ -11,7 +11,9 @@
         <el-row type="flex">
           <el-col class="left" :span="14">
             <img
-              :src="item.coverImgUrl === '' ? defaultImg : item.coverImgUrl"
+              v-imgLazyLoad="
+                item.coverImgUrl === '' ? defaultImg : item.coverImgUrl
+              "
               alt=""
             />
           </el-col>
@@ -87,6 +89,7 @@ export default {
       img {
         width: 100%;
         border-radius: 5px;
+        cursor: pointer;
       }
     }
     .right {
